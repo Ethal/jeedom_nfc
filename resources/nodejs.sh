@@ -14,7 +14,7 @@ echo 10 > /tmp/nfc_dep
 actual=`nodejs -v`;
 echo "Version actuelle : ${actual}"
 
-sudo apt-get -y install libusb-dev libnfc
+sudo apt-get -y install libusb-dev libnfc-dev
 echo 30 > /tmp/flowerpowerbt_dep
 
 if [[ $actual == *"4."* || $actual == *"5."* ]]
