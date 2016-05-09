@@ -15,11 +15,9 @@ process.argv.forEach(function(val, index, array) {
 
 var nfc  = require('nfc').nfc
   , util = require('util')
-  , version = nfc.version()
   , devices = nfc.scan()
   ;
 
-console.log('version: ' + util.inspect(version, { depth: null }));
 console.log('devices: ' + util.inspect(devices, { depth: null }));
 
 function read(deviceID) {

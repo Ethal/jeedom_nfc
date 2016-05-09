@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <info>
     <id>nfc</id>
-    <name>Lecteur NFC</name>
+    <name>NFC</name>
     <licence>AGPL</licence>
     <author>lunarok</author>
     <installation></installation>
