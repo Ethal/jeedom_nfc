@@ -27,7 +27,7 @@ class nfc extends eqLogic {
     $return = array();
     $return['log'] = 'nfc_node';
     $return['state'] = 'nok';
-    $pid = trim( shell_exec ('ps ax | grep "nfc-eventd" | grep -v "grep" | wc -l') );
+    $pid = trim( shell_exec ('ps ax | grep "nfc/node/nfc.js" | grep -v "grep" | wc -l') );
     if ($pid != '' && $pid != '0') {
       $return['state'] = 'ok';
     }
@@ -49,6 +49,13 @@ class nfc extends eqLogic {
 
     $service_path = realpath(dirname(__FILE__) . '/../../node/');
 
+      exec('sudo hciconfig -a hci0 features | grep "LE support"', $testBLE, $return_var);
+      if (strpos($testBLE[0], 'LE support') === false || $return_var != '0') {
+        log::add('nfc', 'error', 'Clef bluetooth incompatible ' . $testBLE[0]);
+        config::save('active', '0',  'nfc');
+        return false;
+      }
+
       if (config::byKey('jeeNetwork::mode') == 'slave') { //Je suis l'esclave
         $url  = config::byKey('jeeNetwork::master::ip') . '/core/api/jeeApi.php?api=' . config::byKey('jeeNetwork::master::apikey');
         $name = config::byKey('internalAddr');
@@ -62,6 +69,9 @@ class nfc extends eqLogic {
       }
 
       $cmd = 'nodejs ' . $service_path . '/nfc.js "' . $url . '" "' . $name . '"';
+      if (config::byKey('dongle','nfc') != '') {
+        $cmd = 'NOBLE_HCI_DEVICE_ID=' . config::byKey('dongle','nfc') . ' ' . $cmd;
+      }
 
       log::add('nfc', 'debug', $cmd);
     $result = exec('sudo ' . $cmd . ' >> ' . log::getPathToLog('nfc_node') . ' 2>&1 &');
@@ -90,17 +100,17 @@ class nfc extends eqLogic {
 }
 
   public static function deamon_stop() {
-    exec('kill $(ps aux | grep "nfc-eventd" | awk \'{print $2}\')');
+    exec('kill $(ps aux | grep "nfc/node/nfc.js" | awk \'{print $2}\')');
     log::add('nfc', 'info', 'Arrêt du service nfc');
     $deamon_info = self::deamon_info();
     if ($deamon_info['state'] == 'ok') {
       sleep(1);
-      exec('kill -9 $(ps aux | grep "nfc-eventd" | awk \'{print $2}\')');
+      exec('kill -9 $(ps aux | grep "nfc/node/nfc.js" | awk \'{print $2}\')');
     }
     $deamon_info = self::deamon_info();
     if ($deamon_info['state'] == 'ok') {
       sleep(1);
-      exec('sudo kill -9 $(ps aux | grep "nfc-eventd" | awk \'{print $2}\')');
+      exec('sudo kill -9 $(ps aux | grep "nfc/node/nfc.js" | awk \'{print $2}\')');
     }
   }
 
@@ -108,8 +118,10 @@ class nfc extends eqLogic {
     $return = array();
     $return['log'] = 'nfc_dep';
     $return['progress_file'] = '/tmp/nfc_dep';
-    $file = '/usr/local/etc/nfc-eventd.conf';
-    if (is_file($file)) {
+    $noble = realpath(dirname(__FILE__) . '/../../node/node_modules/nfc');
+    $request = realpath(dirname(__FILE__) . '/../../node/node_modules/request');
+    $return['progress_file'] = '/tmp/nfc_dep';
+    if (is_dir($noble) && is_dir($request)) {
       $return['state'] = 'ok';
     } else {
       $return['state'] = 'nok';
@@ -120,7 +132,7 @@ class nfc extends eqLogic {
   public static function dependancy_install() {
     log::add('nfc','info','Installation des dépéndances nodejs');
     $resource_path = realpath(dirname(__FILE__) . '/../../resources');
-    passthru('/bin/bash ' . $resource_path . '/install.sh ' . $resource_path . ' > ' . log::getPathToLog('nfc_dep') . ' 2>&1 &');
+    passthru('/bin/bash ' . $resource_path . '/nodejs.sh ' . $resource_path . ' > ' . log::getPathToLog('nfc_dep') . ' 2>&1 &');
   }
 
   public static function event() {
