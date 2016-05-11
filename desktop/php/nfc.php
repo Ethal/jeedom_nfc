@@ -153,16 +153,9 @@ if ($state == 1) {
                         <legend><i class="fa fa-info-circle"></i>  {{Configuration}}</legend>
 
                         <div class="form-group">
-                          <label class="col-md-2 control-label">{{Adresse Bluetooth}}</label>
+                          <label class="col-md-2 control-label">{{UID NFC}}</label>
                       		<div class="col-md-3">
-                          	<span class="eqLogicAttr" data-l1key="configuration" data-l2key="addr"></span>
-                      		</div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-2 control-label">{{Nom}}</label>
-                      		<div class="col-md-3">
-                          	<span class="eqLogicAttr" data-l1key="configuration" data-l2key="device"></span>
+                          	<span class="eqLogicAttr" data-l1key="configuration" data-l2key="uid"></span>
                       		</div>
                         </div>
 
@@ -186,7 +179,6 @@ if ($state == 1) {
                     <th style="width: 50px;">#</th>
                     <th style="width: 200px;">{{Scanner}}</th>
                     <th style="width: 150px;">{{Valeur}}</th>
-                    <th style="width: 150px;">{{RSSI}}</th>
                     <th style="width: 150px;">{{Source}}</th>
                     <th style="width: 100px;">{{Paramètres}}</th>
                     <th style="width: 100px;"></th>

@@ -141,12 +141,8 @@ class nfc extends eqLogic {
     $json = file_get_contents('php://input');
     log::add('nfc', 'debug', 'Body ' . print_r($json,true));
     $body = json_decode($json, true);
-    $rssi = $body['rssi'];
-    if (!isset($body['device'])) {
-      log::add('nfc', 'debug', 'Equipement sans nom, pas de création');
-      die;
-    }
-    $device = $body['device'];
+    $id = $body['uid'];
+    $event = $body['event'];
     $nfc = self::byLogicalId($id, 'nfc');
     if (!is_object($nfc)) {
       if (config::byKey('include_mode','nfc') != 1) {
@@ -155,8 +151,8 @@ class nfc extends eqLogic {
       $nfc = new nfc();
       $nfc->setEqType_name('nfc');
       $nfc->setLogicalId($id);
-      $nfc->setConfiguration('addr', $id);
-      $nfc->setName($device);
+      $nfc->setConfiguration('uid', $id);
+      $nfc->setName($id);
       $nfc->setIsEnable(true);
       event::add('nfc::includeDevice',
       array(
@@ -165,12 +161,12 @@ class nfc extends eqLogic {
       );
     }
       $nfc->setConfiguration('lastCommunication', date('Y-m-d H:i:s'));
-      if ($device != $nfc->getConfiguration('device')) {
-        $nfc->setConfiguration('device', $device);
+      if ($device != $nfc->getConfiguration('uid')) {
+        $nfc->setConfiguration('uid', $id);
       }
       $nfc->save();
       $nfcCmd = nfcCmd::byEqLogicIdAndLogicalId($nfc->getId(),$reader);
-      if ($rssi != "off") {
+      if ($event != "remove") {
         $value = 1;
       } else {
         $value = 0;
@@ -184,7 +180,6 @@ class nfc extends eqLogic {
         $nfcCmd->setSubType('binary');
       }
         $nfcCmd->setConfiguration('value', $value);
-        $nfcCmd->setConfiguration('rssi', $rssi);
         $nfcCmd->setConfiguration('reader', $reader);
         $nfcCmd->save();
         $nfcCmd->event($value);

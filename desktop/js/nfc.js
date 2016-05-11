@@ -140,8 +140,6 @@ function addCmdToTable(_cmd) {
         tr += '<td>';
         tr += '<span class="cmdAttr" data-l1key="configuration" data-l2key="value"></span>';
         tr += '</td><td>';
-        tr += '<span class="cmdAttr" data-l1key="configuration" data-l2key="rssi"></span>';
-        tr += '</td><td>';
         tr += '<span class="cmdAttr" data-l1key="configuration" data-l2key="reader"></span>';
         tr += '</td><td>';
         tr += '<span><input type="checkbox" data-size="mini" data-label-text="{{Historiser}}" class="cmdAttr bootstrapSwitch" data-l1key="isHistorized" /></span>';

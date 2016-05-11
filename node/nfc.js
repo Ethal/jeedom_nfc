@@ -13,53 +13,75 @@ process.argv.forEach(function(val, index, array) {
 	}
 });
 
-var nfc  = require('nfc').nfc
-  , util = require('util')
-  , devices = nfc.scan()
-  ;
+url = urlJeedom + "&type=btsniffer&name=" + name + "&id=" + peripheral.address;
 
-console.log('devices: ' + util.inspect(devices, { depth: null }));
+var nfc = require('nfc').nfc;
+var n = new nfc();
 
-function read(deviceID) {
-  console.log('');
-  var nfcdev = new nfc.NFC();
+var currentTag;
+var removeDelay = 100;
+var removeTimer;
 
-  nfcdev.on('read', function(tag) {
-    console.log(util.inspect(tag, { depth: null }));
-    if ((!!tag.data) && (!!tag.offset)) console.log(util.inspect(nfc.parse(tag.data.slice(tag.offset)), { depth: null }));
-    nfcdev.stop();
-  });
+function handleDetect(uid) {
+	var a = Array.prototype.slice.call(uid).map(function(b) {
+		var s = b.toString(16);
+		if (s.length < 2) {
+			s = '0'+s;
+		}
+		return s;
+	}).join('-').toUpperCase();
+	clearTimeout(removeTimer);
+	if (a !== currentTag) {
+		currentTag = a;
+		console.log('Detect : ' + currentTag);
+		request({
+			url: url,
+			method: 'PUT',
+			json: {"uid": currentTag,
+			"event": "detect",
+			},
+		},
 
-  nfcdev.on('error', function(err) {
-    console.log(util.inspect(err, { depth: null }));
-  });
-
-  nfcdev.on('stopped', function() {
-    console.log('stopped');
-  });
-
-  console.log(nfcdev.start(deviceID));
+		function (error, response, body) {
+				if (!error && response.statusCode == 200) {
+				//console.log( response.statusCode);
+				}else{
+					console.log( error );
+				}
+			});
+	}
+	removeTimer = setTimeout(handleRemove,removeDelay);
 }
 
-for (var deviceID in devices) read(deviceID);
+function handleRemove() {
+	console.log('Remove : ' + currentTag);
+	request({
+		url: url,
+		method: 'PUT',
+		json: {"uid": currentTag,
+		"event": "remove",
+		},
+	},
 
-/*
-      url = urlJeedom + "&type=btsniffer&name=" + name + "&id=" + peripheral.address;
+	function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+			//console.log( response.statusCode);
+			}else{
+				console.log( error );
+			}
+		});
 
-  		request({
-  			url: url,
-  			method: 'PUT',
-  			json: {"device": peripheral.advertisement.localName,
-        "rssi": "off",
-        "address": peripheral.address,
-        },
-  		},
+	currentTag = undefined;
+}
 
-  		function (error, response, body) {
-  			  if (!error && response.statusCode == 200) {
-  				//console.log( response.statusCode);
-  			  }else{
-  			  	console.log( error );
-  			  }
-  			});
-*/
+function handleEvent(e) {
+	//push to pusher
+	pusher.trigger('camarillo', 'scan-uid', e);
+	console.log(JSON.stringify(e));
+}
+
+n.on('uid', function(uid) {
+	handleDetect(uid);
+});
+
+n.start();
