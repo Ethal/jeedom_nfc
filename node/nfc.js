@@ -16,7 +16,7 @@ process.argv.forEach(function(val, index, array) {
 url = urlJeedom + "&type=nfc&name=" + name;
 
 var nfc = require('nfc').nfc;
-var n = new nfc().NFC;
+var n = new nfc();
 
 var currentTag;
 var removeDelay = 100;
