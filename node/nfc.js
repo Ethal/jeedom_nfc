@@ -13,7 +13,7 @@ process.argv.forEach(function(val, index, array) {
 	}
 });
 
-url = urlJeedom + "&type=btsniffer&name=" + name + "&id=" + peripheral.address;
+url = urlJeedom + "&type=nfc&name=" + name;
 
 var nfc = require('nfc').nfc;
 var n = new nfc();
