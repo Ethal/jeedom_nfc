@@ -32,7 +32,7 @@ class nfc extends eqLogic {
       $return['state'] = 'ok';
     }
     $return['launchable'] = 'ok';
-    if (config::byKey('active','nfc') == '0' || config::byKey('active','nfc') == '') {
+    if (config::byKey('service','nfc') == '0' || config::byKey('service','nfc') == '') {
       $return['launchable'] = 'nok';
       $return['launchable_message'] = __('Le démon n\'est pas configuré', __FILE__);
     }
@@ -43,7 +43,7 @@ class nfc extends eqLogic {
     self::deamon_stop();
     $deamon_info = self::deamon_info();
     if ($deamon_info['launchable'] != 'ok') {
-      throw new Exception(__('Veuillez vérifier la configuration', __FILE__));
+      die();
     }
     log::add('nfc', 'info', 'Lancement du démon nfc');
 
@@ -137,22 +137,17 @@ class nfc extends eqLogic {
 
   public static function event() {
     $reader = init('name');
-    $id = init('id');
-    $json = file_get_contents('php://input');
-    log::add('nfc', 'debug', 'Body ' . print_r($json,true));
-    $body = json_decode($json, true);
-    $id = $body['uid'];
-    $event = $body['event'];
-    $nfc = self::byLogicalId($id, 'nfc');
+    $uid = init('uid');
+    $nfc = self::byLogicalId($uid, 'nfc');
     if (!is_object($nfc)) {
       if (config::byKey('include_mode','nfc') != 1) {
         return false;
       }
       $nfc = new nfc();
       $nfc->setEqType_name('nfc');
-      $nfc->setLogicalId($id);
-      $nfc->setConfiguration('uid', $id);
-      $nfc->setName($id);
+      $nfc->setLogicalId($uid);
+      $nfc->setConfiguration('uid', $uid);
+      $nfc->setName($uid);
       $nfc->setIsEnable(true);
       event::add('nfc::includeDevice',
       array(
@@ -161,16 +156,8 @@ class nfc extends eqLogic {
       );
     }
       $nfc->setConfiguration('lastCommunication', date('Y-m-d H:i:s'));
-      if ($device != $nfc->getConfiguration('uid')) {
-        $nfc->setConfiguration('uid', $id);
-      }
       $nfc->save();
       $nfcCmd = nfcCmd::byEqLogicIdAndLogicalId($nfc->getId(),$reader);
-      if ($event != "remove") {
-        $value = 1;
-      } else {
-        $value = 0;
-      }
       if (!is_object($nfcCmd)) {
         $nfcCmd = new nfcCmd();
         $nfcCmd->setName($reader);
@@ -178,11 +165,13 @@ class nfc extends eqLogic {
         $nfcCmd->setLogicalId($reader);
         $nfcCmd->setType('info');
         $nfcCmd->setSubType('binary');
+        $nfcCmd->setConfiguration('returnStateValue',0);
+        $nfcCmd->setConfiguration('returnStateTime',1);
       }
-        $nfcCmd->setConfiguration('value', $value);
+        $nfcCmd->setConfiguration('value', 1);
         $nfcCmd->setConfiguration('reader', $reader);
         $nfcCmd->save();
-        $nfcCmd->event($value);
+        $nfcCmd->event(1);
 
   }
 

@@ -19,9 +19,9 @@ if ($state == 1) {
             <ul id="ul_eqLogic" class="nav nav-list bs-sidenav">
               <?php
               if ($state == 1) {
-                echo ' <a class="btn btn-success tooltips changeIncludeState" title="{{Inclure périphérique BLE}}" data-state="0" style="width : 100%;margin-bottom : 5px;"><i class="fa fa-sign-in fa-rotate-90"></i> {{Arrêter inclusion}}</a>';
+                echo ' <a class="btn btn-success tooltips changeIncludeState" title="{{Inclure périphérique NFC}}" data-state="0" style="width : 100%;margin-bottom : 5px;"><i class="fa fa-sign-in fa-rotate-90"></i> {{Arrêter inclusion}}</a>';
               } else {
-                echo ' <a class="btn btn-default tooltips changeIncludeState" title="{{Inclure périphérique BLE}}" data-state="1" style="width : 100%;margin-bottom : 5px;"><i class="fa fa-sign-in fa-rotate-90"></i> {{Mode inclusion}}</a>';
+                echo ' <a class="btn btn-default tooltips changeIncludeState" title="{{Inclure périphérique NFC}}" data-state="1" style="width : 100%;margin-bottom : 5px;"><i class="fa fa-sign-in fa-rotate-90"></i> {{Mode inclusion}}</a>';
               }
               ?>
                 <li class="filter" style="margin-bottom: 5px;"><input class="filter form-control input-sm" placeholder="{{Rechercher}}" style="width: 100%"/></li>
@@ -153,7 +153,7 @@ if ($state == 1) {
                         <legend><i class="fa fa-info-circle"></i>  {{Configuration}}</legend>
 
                         <div class="form-group">
-                          <label class="col-md-2 control-label">{{UID NFC}}</label>
+                          <label class="col-md-2 control-label">{{UID}}</label>
                       		<div class="col-md-3">
                           	<span class="eqLogicAttr" data-l1key="configuration" data-l2key="uid"></span>
                       		</div>

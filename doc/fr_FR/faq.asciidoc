@@ -5,7 +5,7 @@ Oui, le plugin sur le déporté transmettra les résultats au Jeedom central.
 --
 
 [panel,primary]
-.Est-ce que je peux utiliser tout type de clef Bluetooth ?
+.Est-ce que je peux utiliser tout type de lecteur NFC ?
 --
-Non, il faut que la clef soit Bluetooth 4 BLE au minimum.
+Le plugin a été testé avec une version USB ACR122U, aucune garantie que d'autres lecteurs fonctionnent.
 --

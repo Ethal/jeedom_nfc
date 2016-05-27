@@ -15,7 +15,18 @@ actual=`nodejs -v`;
 echo "Version actuelle : ${actual}"
 
 sudo apt-get -y install libusb-dev libnfc-dev
-echo 30 > /tmp/flowerpowerbt_dep
+echo 20 > /tmp/flowerpowerbt_dep
+
+sudo modprobe -r pn533 nfc
+FILE="/etc/modprobe.d/blacklist-libnfc.conf"
+if [ -f "$FILE" ]
+then
+  echo "pn533 déjà en blacklist"
+else
+  echo "Ajout en blacklist de pn533"
+  sudo cp blacklist-libnfc.conf /etc/modprobe.d/
+fi
+echo 25 > /tmp/flowerpowerbt_dep
 
 if [[ $actual == *"4."* || $actual == *"5."* ]]
 then
@@ -51,7 +62,7 @@ sudo npm cache clean
 sudo rm -rf node_modules
 
 echo 80 > /tmp/nfc_dep
-sudo npm install --unsafe-perm nfc
+sudo npm install --unsafe-perm https://github.com/athombv/node-nfc
 echo 85 > /tmp/nfc_dep
 sudo npm install --unsafe-perm request
 echo 90 > /tmp/nfc_dep

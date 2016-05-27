@@ -6,4 +6,19 @@ Il est possible d'activer ou non le service de détction
 
 ===== Utilisation
 
-Automatiquement les périphériques BLE seront créés sur détection. Leur statut est binaire. 1 pour une présence en cours, 0 quand ils sortent de la zone de reconnaissance
+Automatiquement les tags NFC seront remontés à Jeedom.
+
+Si le plugin est en mode inclusion et qu'il n'existe pas d'équipement pour ce tag, un nouvel équipement est créé.
+
+Une commande information est disponible pour chaque lecteur.
+
+Leur statut est binaire. 1 pour une présence en cours, 0 si ils ne sont plus détectés.
+
+===== Utilisation du plugin sans Jeedom
+
+Il est possible d'utiliser le plugin sans Jeedom dans 2 configurations :
+
+  - avec un Linux, on placera alors le répertoire node sur celui-ci et on lance la commande "nodejs nfc.js $jeedomurl$ $nomlecteur$"
+  on remplacera $jeedomurl$ par l'adresse indiquée par le plugin sur la page configuration, $nomlecteur$ par le nom qu'on souhaite donner à cette instance
+
+  - avec un Tasker ou autre méthode, on devra appeler l'adresse donnée sur la page de configuration du plugin
