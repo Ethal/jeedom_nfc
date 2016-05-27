@@ -63,7 +63,7 @@ if ($state == 1) {
  </div>
 
 
-        <legend><i class="fa fa-table"></i>  {{Mes équipements BLE}} </legend>
+        <legend><i class="fa fa-table"></i>  {{Mes équipements NFC}} </legend>
         <div class="eqLogicThumbnailContainer">
 
                 <?php
@@ -90,7 +90,7 @@ if ($state == 1) {
                 <i class='fa fa-cogs eqLogicAction pull-right cursor expertModeVisible' data-action='configure'></i>
                 </legend>
                 <div class="form-group">
-                    <label class="col-md-2 control-label">{{Bluetooth}}</label>
+                    <label class="col-md-2 control-label">{{NFC}}</label>
                     <div class="col-md-3">
                         <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
                         <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'équipement nfc}}"/>
@@ -153,7 +153,7 @@ if ($state == 1) {
                         <legend><i class="fa fa-info-circle"></i>  {{Configuration}}</legend>
 
                         <div class="form-group">
-                          <label class="col-md-2 control-label">{{UID}}</label>
+                          <label class="col-md-2 control-label">{{UID NFC}}</label>
                       		<div class="col-md-3">
                           	<span class="eqLogicAttr" data-l1key="configuration" data-l2key="uid"></span>
                       		</div>
