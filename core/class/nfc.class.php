@@ -49,13 +49,6 @@ class nfc extends eqLogic {
 
     $service_path = realpath(dirname(__FILE__) . '/../../node/');
 
-      exec('sudo hciconfig -a hci0 features | grep "LE support"', $testBLE, $return_var);
-      if (strpos($testBLE[0], 'LE support') === false || $return_var != '0') {
-        log::add('nfc', 'error', 'Clef bluetooth incompatible ' . $testBLE[0]);
-        config::save('active', '0',  'nfc');
-        return false;
-      }
-
       if (config::byKey('jeeNetwork::mode') == 'slave') { //Je suis l'esclave
         $url  = config::byKey('jeeNetwork::master::ip') . '/core/api/jeeApi.php?api=' . config::byKey('jeeNetwork::master::apikey');
         $name = config::byKey('internalAddr');
