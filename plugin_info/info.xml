@@ -5,8 +5,8 @@
     <licence>AGPL</licence>
     <author>lunarok</author>
     <installation></installation>
-    <require>2.1</require>
-    <category>communication</category>
+    <require>2.3.17</require>
+    <category>devicecommunication</category>
     <allowRemote>1</allowRemote>
     <hasDependency>1</hasDependency>
     <hasOwnDeamon>1</hasOwnDeamon>
