@@ -49,24 +49,19 @@ class nfc extends eqLogic {
 
     $service_path = realpath(dirname(__FILE__) . '/../../node/');
 
-      if (config::byKey('jeeNetwork::mode') == 'slave') { //Je suis l'esclave
-        $url  = config::byKey('jeeNetwork::master::ip') . '/core/api/jeeApi.php?api=' . config::byKey('jeeNetwork::master::apikey');
-        $name = config::byKey('internalAddr');
-      } else {
-        if (!config::byKey('internalPort')) {
-          $url = config::byKey('internalProtocol') . config::byKey('internalAddr') . config::byKey('internalComplement') . '/core/api/jeeApi.php?api=' . config::byKey('api');
-        } else {
-          $url = config::byKey('internalProtocol') . config::byKey('internalAddr'). ':' . config::byKey('internalPort') . config::byKey('internalComplement') . '/core/api/jeeApi.php?api=' . config::byKey('api');
-        }
-        $name = 'master';
-      }
+    if (!config::byKey('internalPort')) {
+      $url = config::byKey('internalProtocol') . config::byKey('internalAddr') . config::byKey('internalComplement') . '/core/api/jeeApi.php?api=' . config::byKey('api');
+    } else {
+      $url = config::byKey('internalProtocol') . config::byKey('internalAddr'). ':' . config::byKey('internalPort') . config::byKey('internalComplement') . '/core/api/jeeApi.php?api=' . config::byKey('api');
+    }
+    $name = 'master';
 
-      $cmd = 'nodejs ' . $service_path . '/nfc.js "' . $url . '" "' . $name . '"';
-      if (config::byKey('dongle','nfc') != '') {
-        $cmd = 'NOBLE_HCI_DEVICE_ID=' . config::byKey('dongle','nfc') . ' ' . $cmd;
-      }
+    $cmd = 'nodejs ' . $service_path . '/nfc.js "' . $url . '" "' . $name . '"';
+    if (config::byKey('dongle','nfc') != '') {
+      $cmd = 'NOBLE_HCI_DEVICE_ID=' . config::byKey('dongle','nfc') . ' ' . $cmd;
+    }
 
-      log::add('nfc', 'debug', $cmd);
+    log::add('nfc', 'debug', $cmd);
     $result = exec('sudo ' . $cmd . ' >> ' . log::getPathToLog('nfc_node') . ' 2>&1 &');
     if (strpos(strtolower($result), 'error') !== false || strpos(strtolower($result), 'traceback') !== false) {
       log::add('nfc', 'error', $result);
@@ -90,7 +85,7 @@ class nfc extends eqLogic {
     log::add('nfc', 'info', 'Démon nfc lancé');
     return true;
 
-}
+  }
 
   public static function deamon_stop() {
     exec('kill $(ps aux | grep "nfc/node/nfc.js" | awk \'{print $2}\')');
@@ -146,27 +141,27 @@ class nfc extends eqLogic {
       array(
         'state' => $state
       )
-      );
-    }
-      $nfc->setConfiguration('lastCommunication', date('Y-m-d H:i:s'));
-      $nfc->save();
-      $nfcCmd = nfcCmd::byEqLogicIdAndLogicalId($nfc->getId(),$reader);
-      if (!is_object($nfcCmd)) {
-        $nfcCmd = new nfcCmd();
-        $nfcCmd->setName($reader);
-        $nfcCmd->setEqLogic_id($nfc->getId());
-        $nfcCmd->setLogicalId($reader);
-        $nfcCmd->setType('info');
-        $nfcCmd->setSubType('binary');
-        $nfcCmd->setConfiguration('returnStateValue',0);
-        $nfcCmd->setConfiguration('returnStateTime',1);
-      }
-        $nfcCmd->setConfiguration('value', 1);
-        $nfcCmd->setConfiguration('reader', $reader);
-        $nfcCmd->save();
-        $nfcCmd->event(1);
-
+    );
   }
+  $nfc->setConfiguration('lastCommunication', date('Y-m-d H:i:s'));
+  $nfc->save();
+  $nfcCmd = nfcCmd::byEqLogicIdAndLogicalId($nfc->getId(),$reader);
+  if (!is_object($nfcCmd)) {
+    $nfcCmd = new nfcCmd();
+    $nfcCmd->setName($reader);
+    $nfcCmd->setEqLogic_id($nfc->getId());
+    $nfcCmd->setLogicalId($reader);
+    $nfcCmd->setType('info');
+    $nfcCmd->setSubType('binary');
+    $nfcCmd->setConfiguration('returnStateValue',0);
+    $nfcCmd->setConfiguration('returnStateTime',1);
+  }
+  $nfcCmd->setConfiguration('value', 1);
+  $nfcCmd->setConfiguration('reader', $reader);
+  $nfcCmd->save();
+  $nfcCmd->event(1);
+
+}
 
 }
 
