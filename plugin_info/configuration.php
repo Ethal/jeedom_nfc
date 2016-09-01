@@ -44,31 +44,9 @@ if (!isConnect()) {
       <div class="form-group">
         <label class="col-lg-4 control-label" >{{Scanner NFC}} :</label>
         <div class="col-lg-2">
-          <input type="checkbox" class="configKey form-control bootstrapSwitch" data-label-text="{{Activer}}" data-l1key="service" checked=""/>
+          <span><label class="checkbox-inline"><input type="checkbox" class="configKey" data-l1key="service" checked/>{{Activer}}</label></span>
         </div>
       </div>
     </fieldset>
   </div>
 </form>
-
-
-<?php
-if (config::byKey('jeeNetwork::mode') == 'master') {
-  foreach (jeeNetwork::byPlugin('rflink') as $jeeNetwork) {
-    ?>
-    <form class="form-horizontal slaveConfig" data-slave_id="<?php echo $jeeNetwork->getId(); ?>">
-      <fieldset>
-        <legend>{{Scanner sur l'esclave}} <?php echo $jeeNetwork->getName() ?></legend>
-        <div class="form-group">
-          <label class="col-lg-4 control-label" >{{Scanner NFC}} :</label>
-          <div class="col-lg-2">
-            <input type="checkbox" class="slaveConfigKey form-control bootstrapSwitch" data-label-text="{{Activer}}" data-l1key="service" checked=""/>
-          </div>
-        </div>
-
-      </fieldset>
-    </form>
-    <?php
-  }
-}
-?>
