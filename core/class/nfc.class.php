@@ -26,15 +26,17 @@ class nfc extends eqLogic {
   public static function deamon_info() {
     $return = array();
     $return['log'] = 'nfc_node';
-    $return['state'] = 'nok';
-    $pid = trim( shell_exec ('ps ax | grep "nfc/node/nfc.js" | grep -v "grep" | wc -l') );
-    if ($pid != '' && $pid != '0') {
-      $return['state'] = 'ok';
-    }
     $return['launchable'] = 'ok';
     if (config::byKey('service','nfc') == '0' || config::byKey('service','nfc') == '') {
       $return['launchable'] = 'nok';
       $return['launchable_message'] = __('Le démon n\'est pas configuré', __FILE__);
+      $return['state'] = 'ok';
+    } else {
+      $return['state'] = 'nok';
+      $pid = trim( shell_exec ('ps ax | grep "nfc/node/nfc.js" | grep -v "grep" | wc -l') );
+      if ($pid != '' && $pid != '0' ) {
+        $return['state'] = 'ok';
+      }
     }
     return $return;
   }
