@@ -27,8 +27,9 @@ class nfc extends eqLogic {
     $return = array();
     $return['log'] = 'nfc_node';
     $return['launchable'] = 'ok';
+    $return['service'] = 'ok';
     if (config::byKey('service','nfc') == '0' || config::byKey('service','nfc') == '') {
-      $return['launchable'] = 'nok';
+      $return['service'] = 'nok';
       $return['launchable_message'] = __('Le démon n\'est pas configuré', __FILE__);
       $return['state'] = 'ok';
     } else {
@@ -44,7 +45,7 @@ class nfc extends eqLogic {
   public static function deamon_start($_debug = false) {
     self::deamon_stop();
     $deamon_info = self::deamon_info();
-    if ($deamon_info['launchable'] != 'ok') {
+    if ($deamon_info['service'] != 'ok') {
       die();
     }
     log::add('nfc', 'info', 'Lancement du démon nfc');
