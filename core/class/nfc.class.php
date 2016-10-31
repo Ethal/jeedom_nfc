@@ -15,13 +15,9 @@
 * You should have received a copy of the GNU General Public License
 * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
 */
-
-/* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
-
 class nfc extends eqLogic {
-
 
   public static function deamon_info() {
     $return = array();
@@ -52,11 +48,8 @@ class nfc extends eqLogic {
 
     $service_path = realpath(dirname(__FILE__) . '/../../node/');
 
-    if (!config::byKey('internalPort')) {
-      $url = config::byKey('internalProtocol') . config::byKey('internalAddr') . config::byKey('internalComplement') . '/core/api/jeeApi.php?api=' . config::byKey('api');
-    } else {
-      $url = config::byKey('internalProtocol') . config::byKey('internalAddr'). ':' . config::byKey('internalPort') . config::byKey('internalComplement') . '/core/api/jeeApi.php?api=' . config::byKey('api');
-    }
+    $url = network::getNetworkAccess('internal') . '/plugins/nfc/core/api/nfc.php?apikey=' . jeedom::getApiKey('nfc');
+
     $name = 'master';
 
     $cmd = 'nodejs ' . $service_path . '/nfc.js "' . $url . '" "' . $name . '"';
@@ -125,46 +118,6 @@ class nfc extends eqLogic {
     $resource_path = realpath(dirname(__FILE__) . '/../../resources');
     passthru('/bin/bash ' . $resource_path . '/nodejs.sh ' . $resource_path . ' > ' . log::getPathToLog('nfc_dep') . ' 2>&1 &');
   }
-
-  public static function event() {
-    $reader = init('name');
-    $uid = init('uid');
-    $nfc = self::byLogicalId($uid, 'nfc');
-    if (!is_object($nfc)) {
-      if (config::byKey('include_mode','nfc') != 1) {
-        return false;
-      }
-      $nfc = new nfc();
-      $nfc->setEqType_name('nfc');
-      $nfc->setLogicalId($uid);
-      $nfc->setConfiguration('uid', $uid);
-      $nfc->setName($uid);
-      $nfc->setIsEnable(true);
-      event::add('nfc::includeDevice',
-      array(
-        'state' => $state
-      )
-    );
-  }
-  $nfc->setConfiguration('lastCommunication', date('Y-m-d H:i:s'));
-  $nfc->save();
-  $nfcCmd = nfcCmd::byEqLogicIdAndLogicalId($nfc->getId(),$reader);
-  if (!is_object($nfcCmd)) {
-    $nfcCmd = new nfcCmd();
-    $nfcCmd->setName($reader);
-    $nfcCmd->setEqLogic_id($nfc->getId());
-    $nfcCmd->setLogicalId($reader);
-    $nfcCmd->setType('info');
-    $nfcCmd->setSubType('binary');
-    $nfcCmd->setConfiguration('returnStateValue',0);
-    $nfcCmd->setConfiguration('returnStateTime',1);
-  }
-  $nfcCmd->setConfiguration('value', 1);
-  $nfcCmd->setConfiguration('reader', $reader);
-  $nfcCmd->save();
-  $nfcCmd->event(1);
-
-}
 
 }
 
