@@ -1,0 +1,49 @@
+{
+    "plugins\/nfc\/core\/class\/nfc.class.php": {
+        "Le démon n'est pas configuré": "Le démon n'est pas configuré"
+    },
+    "plugins\/nfc\/plugin_info\/configuration.php": {
+        "Adresse à utiliser": "Adresse à utiliser",
+        "Scanner NFC": "Scanner NFC",
+        "Activer": "Activer"
+    },
+    "plugins\/nfc\/desktop\/php\/nfc.php": {
+        "Inclure périphérique NFC": "Inclure périphérique NFC",
+        "Mode inclusion": "Mode inclusion",
+        "Rechercher": "Rechercher",
+        "Gestion": "Gestion",
+        "Configuration": "Configuration",
+        "Mes équipements NFC": "Mes équipements NFC",
+        "Sauvegarder": "Sauvegarder",
+        "Supprimer": "Supprimer",
+        "Configuration avancée": "Configuration avancée",
+        "Equipement": "Equipement",
+        "Commandes": "Commandes",
+        "NFC": "NFC",
+        "Nom de l'équipement nfc": "Nom de l'équipement nfc",
+        "Objet parent": "Objet parent",
+        "Aucun": "Aucun",
+        "Catégorie": "Catégorie",
+        "Activer": "Activer",
+        "Visible": "Visible",
+        "Délai max entre 2 messages": "Délai max entre 2 messages",
+        "Commentaire": "Commentaire",
+        "UID NFC": "UID NFC",
+        "Dernière Activité": "Dernière Activité",
+        "Scanner": "Scanner",
+        "Valeur": "Valeur",
+        "Source": "Source",
+        "Paramètres": "Paramètres"
+    },
+    "plugins\/nfc\/desktop\/js\/nfc.js": {
+        "Arrêter l\\'inclusion": "Arrêter l\\'inclusion",
+        "Arreter inclusion": "Arreter inclusion",
+        "Vous etes en mode inclusion. Recliquez sur le bouton d\\'inclusion pour sortir de ce mode": "Vous etes en mode inclusion. Recliquez sur le bouton d\\'inclusion pour sortir de ce mode",
+        "Mode inclusion": "Mode inclusion",
+        "Un périphérique vient d\\'être inclu\/exclu. Veuillez réactualiser la page": "Un périphérique vient d\\'être inclu\/exclu. Veuillez réactualiser la page",
+        "Nom de l\\'info": "Nom de l\\'info",
+        "Historiser": "Historiser",
+        "Afficher": "Afficher",
+        "Tester": "Tester"
+    }
+}
