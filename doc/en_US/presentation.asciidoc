@@ -1,2 +1,2 @@
-==== NFC, lecteur de tags
+==== NFC, tags reader
 Ce plugin utilise un lecteur NFC/RFID ACR122U pour remonter les tags NFC/RFID lus

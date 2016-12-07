@@ -1,18 +1,18 @@
 {
     "plugins\/nfc\/core\/class\/nfc.class.php": {
-        "Le démon n'est pas configuré": "Le démon n'est pas configuré"
+        "Le démon n'est pas configuré": "The daemon is not set"
     },
     "plugins\/nfc\/plugin_info\/configuration.php": {
-        "Adresse à utiliser": "Adresse à utiliser",
+        "Adresse à utiliser": "Adress to use",
         "Scanner NFC": "Scanner NFC",
-        "Activer": "Activer"
+        "Activer": "Enable"
     },
     "plugins\/nfc\/desktop\/php\/nfc.php": {
         "Inclure périphérique NFC": "Inclure périphérique NFC",
         "Mode inclusion": "Mode inclusion",
-        "Rechercher": "Rechercher",
-        "Gestion": "Gestion",
-        "Configuration": "Configuration",
+        "Rechercher": "Search",
+        "Gestion": "Management",
+        "Configuration": "Setting",
         "Mes équipements NFC": "Mes équipements NFC",
         "Sauvegarder": "Sauvegarder",
         "Supprimer": "Supprimer",
