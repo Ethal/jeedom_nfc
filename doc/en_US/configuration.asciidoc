@@ -1,10 +1,10 @@
 ==== The plugin configuration
 
-Il n'y a pas de configuration à faire
+The plugin does not have configuration.
 
 Il est possible d'activer ou non le service de détction
 
-===== Utilisation
+==== Use
 
 Automatiquement les tags NFC seront remontés à Jeedom.
 
