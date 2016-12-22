@@ -1,5 +1,5 @@
 [panel,primary]
-.Est-ce qu'on peut utiliser en déporté ?
+. Can we use in remote mode?
 --
 Oui, le plugin sur le déporté transmettra les résultats au Jeedom central.
 --
