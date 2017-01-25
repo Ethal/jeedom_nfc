@@ -2,7 +2,7 @@
 
 The plugin does not have configuration.
 
-Il est possible d'activer ou non le service de détction
+It is possible to activate or not the automatic detection service
 
 ==== Use
 
