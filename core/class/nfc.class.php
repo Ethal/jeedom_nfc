@@ -48,7 +48,7 @@ class nfc extends eqLogic {
 
     $service_path = realpath(dirname(__FILE__) . '/../../node/');
 
-    $url = network::getNetworkAccess('internal') . '/plugins/nfc/core/api/nfc.php?apikey=' . jeedom::getApiKey('nfc');
+    $url = network::getNetworkAccess('internal', 'proto:127.0.0.1:port:comp') . '/plugins/nfc/core/api/nfc.php?apikey=' . jeedom::getApiKey('nfc');
 
     $name = 'master';
 
