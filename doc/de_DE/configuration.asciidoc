@@ -1,6 +1,6 @@
 ==== Plugin Konfiguration
 
-Il n'y a pas de configuration à faire
+Es ist keine Konfiguration zu machen
 
 Il est possible d'activer ou non le service de détction
 
