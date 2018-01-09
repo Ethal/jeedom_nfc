@@ -24,7 +24,7 @@
 
  $reader = init('name');
  $uid = init('uid');
- $nfc = self::byLogicalId($uid, 'nfc');
+ $nfc = nfc::byLogicalId($uid, 'nfc');
  if (!is_object($nfc)) {
    if (config::byKey('include_mode','nfc') != 1) {
      return false;
